@@ -4,5 +4,53 @@
 	<title>GDP Bar Chart</title>
 </head>
 <body>
+	<div id ='tree'> trees</div>
+	<div id ="bush"> bushes</div>
 </body>
+<script src = "http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script type="text/javascript">
+    d3.selectAll('div').style('color','blue').style('background-color','red').attr('class','foo');
+    function createSvg()  {
+    	// body...
+    	mySvg = d3.select('body').append('svg').attr('height','400').attr('width','500');
+    	mySvg.append('circle').attr('id','start').attr('class','barfoo');
+    	mySvg.append('circle').attr('id','end').attr('class','barfoo');
+    	mySvg.append('line').attr('class','foobar');
+
+    }
+    function bigCircles(){
+    	var circle = d3.selectAll('circle').attr('r',20);
+    }
+    function moveCircle(){
+    	d3.select('#start').attr('cx','100').attr('cy','100');
+    }
+    function styleLine(){
+    	var line = d3.select('line').attr('x1','10').attr('x2','10').attr('y1','5').attr('y2','100').style('stroke','cyan');
+    }
+    function moveLine (){
+    	d3.select('line').attr('x1','0').attr('x2','200').attr('y1','0').attr('y2','200');
+    }
+    function thickenLine(){
+    	d3.select('line').style('stroke-width','10');
+    }
+
+    function getData(){
+    	//gdp.json
+    	//d3.json
+    	var url ='https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/master/GDP-data.json';
+    	d3.json(url,function(error,data){
+    		//debugger;
+    		console.log(error);
+    		console.log(data.data);
+    	});
+    }
+    createSvg();
+    bigCircles();
+    moveCircle();
+    styleLine();
+    moveLine();
+    thickenLine();
+    getData();
+
+</script>
 </html>
