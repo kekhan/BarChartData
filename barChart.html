@@ -29,10 +29,10 @@ var url ='https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/ma
     var xScale = d3.time.scale().range([0,width]);
 
     // the x axis
-    var xAxis = d3.svg.axis().scale(xScale).orient("bottom").ticks(20);
+    var xAxis = d3.svg.axis().scale(xScale).orient("bottom").ticks(14);
 
     //the yaxis
-    var yAxis = d3.svg.axis().scale(yScale).orient("right").ticks(50);
+    var yAxis = d3.svg.axis().scale(yScale).orient("right").ticks(14);
 
     var parseTime = d3.time.format("%Y-%m-%d");
 
@@ -82,10 +82,19 @@ var url ='https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/ma
             .style('fill','red');
         dots.append('circle').attr('r',10);
         dots.append('text').text(function(d){
-            return d[1]
+            return d[1] +' '+ parseTime.parse(d[0])
 
+        })
+        .style('display', 'none');
+        dots.on("mouseenter",function(d,i){
+            dot = d3.select(this);
+            dot.select('text').style('display','block');
         });
+        dots.on("mouseleave",function(d,i){
 
+            dot = d3.select(this);
+            dot.select('text').style('display','none');
+        });
 
     	/*dots.attr('y2',function(d){ return 0});
     	dots.attr('x2',function(d){ return 0});
