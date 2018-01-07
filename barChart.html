@@ -1,114 +1,43 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>GDP Bar Chart</title>
+    <title>Bar charts</title>
 </head>
 <body>
-	<div id ='visual-wrapper'> </div>
-	
-</body>
-<script src = "http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-<script type="text/javascript">
-var height = 600,
-     width = 800;
-var padding = 50;
+    <div id ="d3js">
+    </div>
+    <script src = "https://d3js.org/d3.v4.min.js"></script>
+    <script type="text/javascript">
+        var url = "https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/master/GDP-data.json";
+        var xScale;
+        var yScale;
+        var barPadding =1;
+        var width = 1000;
+        var height = 1000;
+        var svg = d3.select('#d3js')
+            .append('svg')
+            .attr('width',width)
+            .attr('height',height);
+         d3.json(url, function(error,data){
+            svg.selectAll('rect')
+            .data(data.data)
+            .enter()
+            .append('rect')
+            .attr("x",function(d, i){
+                return i*10;
+            })
+            .attr("y",function(d){
+                return height - d[1];
+            })
+            .attr("width", '5px')
+            .attr("height",function(d){
+                return d[1]*4;
+            })
+            .attr("fill", "teal");
 
-var url ='https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/master/GDP-data.json';
 
-    var viz = d3.select('#visual-wrapper')
-    .append('svg')
+        });
     
-    .attr('height',height + padding * 2)
-    .attr('width',width + padding * 2)
-    .append('g')
-    .attr('id','viz');
-
-    // the y scale
-    var yScale = d3.scale.linear().range([height, 0]);
-
-    var xScale = d3.time.scale().range([0,width]);
-
-    // the x axis
-    var xAxis = d3.svg.axis().scale(xScale).orient("bottom").ticks(14);
-
-    //the yaxis
-    var yAxis = d3.svg.axis().scale(yScale).orient("right").ticks(14);
-
-    var parseTime = d3.time.format("%Y-%m-%d");
-
-
-   //get json data
-    d3.json(url, function(error,data){
-        /*xMax = d3.max(data.data, function(element){
-            //console.log(element[0]);
-            return parseTime.parse(element)
-        });
-        xMin = d3.min(data.data,function(element){
-            return parseTime.parse(element)
-        });
-        //console.log(yMax);*/
-        yDomain = d3.extent(data.data, function(element){
-            return parseInt(element[1])*1.1
-        });
-        yScale.domain(yDomain);
-        //console.log(yDomain);
-        xDomain = d3.extent(data.data, function(element){
-            return parseTime.parse(element[0])
-        });
-        xScale.domain(xDomain);
-        console.log(yDomain);
-        console.log(xDomain);
-
-        // add the x Axis
-        viz.append("g").attr("class", "x axis").attr("transform", "translate(0,"+ height+")")
-        .call(xAxis);
-
-        // add y axis
-
-        viz.append("g").attr('class','y axis').call(yAxis);
-
-    	dots = viz.selectAll('g.circle')
-    	.data(data.data)
-    	.enter()
-    	.append('g')
-        .attr('class','dots');
-
-    	dots.attr('transform',function(d){ 
-            date = parseTime.parse(d[0]);
-            x= xScale(date)
-            y = yScale(d[1])
-            return 'translate('+x+','+y+')'})
-            .style('stroke','cyan')
-            .style('fill','red');
-        dots.append('circle').attr('r',10);
-        dots.append('text').text(function(d){
-            return d[1] +' '+ parseTime.parse(d[0])
-
-        })
-        .style('display', 'none');
-        dots.on("mouseenter",function(d,i){
-            dot = d3.select(this);
-            dot.select('text').style('display','block');
-        });
-        dots.on("mouseleave",function(d,i){
-
-            dot = d3.select(this);
-            dot.select('text').style('display','none');
-        });
-
-    	/*dots.attr('y2',function(d){ return 0});
-    	dots.attr('x2',function(d){ return 0});
-    	dots.attr('x1',function(d){
-            date = parseTime.parse(d[0]);
-            console.log(xScale(date));
-            return xScale(date)
-    	});
-
-    	dots.style('stroke','cyan');
-    	dots.style('stroke-width','25');*/
-    });
-
-
-
-</script>
+    </script>
+</body>
 </html>
