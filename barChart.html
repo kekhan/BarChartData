@@ -45,7 +45,6 @@
                 return timeFormat.parse(el[0]);
             });
             xScale.domain(xDomain);
-          
 
 
             svg.selectAll('rect')
@@ -67,7 +66,16 @@
             .attr("height",function(d){
                 return d[1]* 15;
             })
-            .attr("fill", "teal");
+
+            .attr("fill", "teal")
+            .on("mouseover", function() {
+                d3.select(this)
+                .attr("fill", "orange");
+                })
+            .on("mouseout", function() {
+                d3.select(this)
+                .attr("fill", "teal");
+                })
 
             svg.append("g")
             .attr("class", "x axis")
@@ -77,26 +85,7 @@
             svg.append("g")
               .attr("class", "y axis")
               .call(yAxis);
-
-            svg.append('text').text(function(d){
-                    console.log(d);
-                    //date = timeFormat.parse(d[0]);
-                    return d[0];
-                })
-                .style('display','none');
-
-            svg.on("mouseover", function(d,i){
-
-                dot = d3.select(this);
-                dot.selectAll('text')
-                    .style('display','inline-block'); 
-            });
-
-            svg.on("mouseleave", function(d, i){
-                d3.select(this)
-                   .select('text')
-                   .style('display','none');
-            });
+         
 
 
 
