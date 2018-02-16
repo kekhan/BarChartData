@@ -99,20 +99,35 @@
 
               .call(yAxis);
 
-            bars.append('text')
-                .attr("dy",".1em")
-                .attr("dx",".1em")
-                .style("text-anchor","end")
-                .text(function(d){
-                    return d;
+            var textDisplay = bars.append('text')
+                .style("text-anchor","end");
 
-                })
-                .style('position','absolute')
-                .style('display','none');
+                textDisplay
+                .append("tspan")
+                    .text(function(d){
+                        console.log(d);
+                        return "year " + d[0].slice(0,4);
+
+                    })
+                    .attr('y',"1")
+                    .attr('x','1')
+                    .attr("text-anchor","end")
+                    
+                    .style('display','none');
+                textDisplay
+                    .append("tspan")
+                    .text(function(d){
+                        return "money " + d[1];
+                    })
+                    .attr("text-anchor","end")
+                    .attr('y','-20')
+                    .attr('x','1')
+                    
+                    .style('display','none');
 
             bars.on("mouseenter", function(d,i) {
                 bar = d3.select(this);
-                bar.select('text')
+                bar.selectAll('tspan')
                     .style('fill','red')
                     .style('display','inline-block');
                    
@@ -121,7 +136,7 @@
                 
             bars.on("mouseleave", function(d,i) {
                 d3.select(this)
-                   .select('text')
+                   .selectAll('tspan')
                    .style('display','none');
                 });
 
